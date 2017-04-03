@@ -1,0 +1,12 @@
+build/
+gradlew
+grailsw
+settings.gradle
+.gradle
+.idea
+.project
+.settings
+*.iml
+*.project
+*.bat
+*.jar
