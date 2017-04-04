@@ -2,22 +2,17 @@ package mock.transaction.manager
 
 import grails.test.mixin.Mock
 import grails.test.mixin.TestFor
-import grails.test.mixin.TestMixin
-import grails.test.mixin.services.ServiceUnitTestMixin
 import spock.lang.Specification
 
 /**
  * See the API for {@link grails.test.mixin.services.ServiceUnitTestMixin} for usage instructions
  */
-@TestMixin(ServiceUnitTestMixin)
+@TestFor(UserService)
 @Mock([User, Role, UserRole])
 class UserServiceSpec extends Specification {
 
-    def service = new UserService()
-
     def setup() {
         service.roleService = Spy(RoleService)
-        service.transactionManager = transactionManager
         service.roleService.transactionManager = transactionManager
     }
 
@@ -35,6 +30,7 @@ class UserServiceSpec extends Specification {
 
         then:
         User.get(1)
+        1 * service.roleService.grantRole(_, _)
         UserRole.findByRole(adminRole)
     }
 }
