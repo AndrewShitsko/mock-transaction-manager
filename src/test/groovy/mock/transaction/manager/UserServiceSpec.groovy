@@ -21,16 +21,15 @@ class UserServiceSpec extends Specification {
 
     void "test create user"() {
         setup:
-        def adminRole = new Role(authority: Role.AvailableRoles.ADMIN.name()).save(flush: true)
-        def userRole = new Role(authority: Role.AvailableRoles.USER.name()).save(flush: true)
+        def adminRole = new Role(authority: Role.AvailableRoles.ADMIN.value()).save(flush: true)
+        new Role(authority: Role.AvailableRoles.USER.value()).save(flush: true)
+        def params = [email: "john.doe@realizeideas.net", password: "password", firstName: "John", lastName: "Doe", role: adminRole.authority]
 
         when:
-        service.createUser([email: "john.doe@local.net", password: "password", firstName: "John", lastName: "Doe",
-                            role: adminRole.authority])
+        def result = service.createUser(params)
 
         then:
-        User.get(1)
-        1 * service.roleService.grantRole(_, _)
+        result
         UserRole.findByRole(adminRole)
     }
 }

@@ -15,4 +15,8 @@ class RoleService {
             UserRole.where { user == u && role == r }.deleteAll()
         }
     }
+
+    def revokeRoles(User u) {
+        u == null ? 0 : UserRole.where { user == u }.deleteAll()
+    }
 }

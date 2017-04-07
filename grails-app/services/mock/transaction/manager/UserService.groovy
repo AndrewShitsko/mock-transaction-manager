@@ -9,8 +9,10 @@ class UserService {
 
     def createUser(Map params) {
         def user = new User(params)
-        if (user.save()) {
-            roleService.grantRole(user, Role.findByAuthority(params.role))
+        if (!user.save()) {
+            return null
         }
+        roleService.grantRole(user, Role.findByAuthority(params.role))
+        user
     }
 }
