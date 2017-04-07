@@ -30,6 +30,7 @@ class UserServiceSpec extends Specification {
 
         then:
         result
+        1 * service.roleService.grantRole(_, _)
         UserRole.findByRole(adminRole)
     }
 }
